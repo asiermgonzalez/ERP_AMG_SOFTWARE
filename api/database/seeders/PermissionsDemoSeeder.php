@@ -121,20 +121,24 @@ class PermissionsDemoSeeder extends Seeder
         $role3 = Role::create(['guard_name' => 'api', 'name' => 'Super-Admin']);
 
         // Crear user
+        /*
         $user = \App\Models\User::factory()->create([
             'name' => 'Example User',
             'email' => 'tester@example.com',
             'password' => bcrypt('Ay$070400_'),
         ]);
         $user->assignRole($role1);
+        */
 
         // Crear admin
+        /*
         $user = \App\Models\User::factory()->create([
             'name' => 'Example Admin User',
             'email' => 'admin@example.com',
             'password' => bcrypt('Ay$070400_'),
         ]);
         $user->assignRole($role2);
+        */
 
         // Crear super-admin
         $user = \App\Models\User::factory()->create([

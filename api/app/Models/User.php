@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -24,6 +25,14 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'surname',
+        'phone',
+        'role_id',
+        'sucursal_id',
+        'type_document',
+        'n_document',
+        'gender',
+        'avatar',
     ];
 
     /**
@@ -64,5 +73,13 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Obtener los roles del usuario
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

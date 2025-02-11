@@ -47,10 +47,17 @@ const Routing: Routes = [
     loadChildren: () => import('./permission/permission.module').then((m) => m.PermissionModule),
   },
   // Mis módulos
-  // Localhost:4200/roles/list
+  // Roles
+  // Localhost:4200/roles/
   {
     path: 'roles',
     loadChildren: () => import('../modules/roles/roles.module').then((m) => m.RolesModule),
+  },
+  // Usuarios
+  // Localhost:4200/users/
+  {
+    path: 'usuarios',
+    loadChildren: () => import('../modules/users/users.module').then((m) => m.UsersModule),
   },
   {
     path: '',
