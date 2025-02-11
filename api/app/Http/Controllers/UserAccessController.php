@@ -42,8 +42,9 @@ class UserAccessController extends Controller
                         'type_document' => $user->type_document,
                         'n_document' => $user->n_document,
                         'gender' => $user->gender,
-                        'avatar' => $user->avatar ? env('APP_URL') . 'storage/' . $user->avatar : null,
+                        'avatar' => $user->avatar ? env('APP_URL') . 'storage/' . $user->avatar : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
                         'created_format_at' => $user->created_at->format('d-m-Y h:i A'),
+                        'address' => $user->address,
                     ];
                 }),
             ]
@@ -97,7 +98,7 @@ class UserAccessController extends Controller
                 'type_document' => $user->type_document,
                 'n_document' => $user,
                 'gender' => $user->gender,
-                'avatar' => $user->avatar ? env('APP_URL') . 'storage/' . $user->avatar : null,
+                'avatar' => $user->avatar ? env('APP_URL') . 'storage/' . $user->avatar : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
                 'created_format_at' => $user->created_at->format('d-m-Y h:i A'),
             ]
         ]);
@@ -136,7 +137,7 @@ class UserAccessController extends Controller
         // Eliminamos el rol anterior y asignamos el nuevo rol
         if ($request->role_id != $user->role_id) {
             $role_old = Role::findOrFail($user->role_id);
-            $user->removeRol($role_old);
+            $user->removeRole($role_old);
 
             $role = Role::findOrFail($request->role_id);
             $user->assignRole($role);
@@ -163,8 +164,9 @@ class UserAccessController extends Controller
                 'type_document' => $user->type_document,
                 'n_document' => $user,
                 'gender' => $user->gender,
-                'avatar' => $user->avatar ? env('APP_URL') . 'storage/' . $user->avatar : null,
+                'avatar' => $user->avatar ? env('APP_URL') . 'storage/' . $user->avatar : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
                 'created_format_at' => $user->created_at->format('d-m-Y h:i A'),
+                'address' => $user->address,
             ]
         ]);
     }
@@ -181,7 +183,7 @@ class UserAccessController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
-        
+
         // Eliminar la imagen
         if ($user->avatar) Storage::delete($user->avatar);
 
@@ -189,5 +191,23 @@ class UserAccessController extends Controller
         $user->delete();
 
         return response()->json(['message' => 200,]);
+    }
+
+
+    /**
+     * Devuelve el listado de los roles
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * autor Asier Martín
+     * date 2025-02-11
+     * version 1.0
+     * Utilizado en:
+     *      - users.service.ts
+     */
+    public function config()
+    {
+        return response()->json([
+            'roles' => Role::all()
+        ]);
     }
 }

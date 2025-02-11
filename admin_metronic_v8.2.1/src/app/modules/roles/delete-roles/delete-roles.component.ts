@@ -34,7 +34,7 @@ export class DeleteRolesComponent {
         this.toast.error('Validación', resp.message_text);
       } else {
         // Si el rol se ha editado correctamente, se muestra un mensaje de éxito
-        this.toast.success('Rol creado', 'El rol se ha eliminado correctamente');
+        this.toast.success('Rol eliminado', 'El rol se ha eliminado correctamente');
         this.RoleD.emit(resp.role); // Se emite el rol eliminado hacia list-roles.component.ts
         this.modal.close(); // Se cierra el modal
       }

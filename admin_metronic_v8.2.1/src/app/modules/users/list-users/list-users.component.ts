@@ -16,6 +16,7 @@ export class ListUsersComponent {
   isLoading$: any;
   totalPages: number = 0;
   currentPage: number = 1;
+  roles: any = [];
 
   constructor(
     public modalService: NgbModal,
@@ -25,6 +26,13 @@ export class ListUsersComponent {
   ngOnInit(): void {
     this.isLoading$ = this.usersService.isLoading$;
     this.listUsers();
+    this.configAll();
+  }
+
+  configAll() {
+    this.usersService.configAll().subscribe((resp: any) => {
+      this.roles = resp.roles;
+    });
   }
 
   listUsers(page = 1) {
@@ -49,9 +57,12 @@ export class ListUsersComponent {
       size: 'md',
     });
 
+    // Se envía el listado de roles al componente hijo (create-user.component.ts)
+    modalRef.componentInstance.roles = this.roles;
+
     // Se suscribe al evento que se emite al cerrar el modal
-    modalRef.componentInstance.UserC.subscribe((role: any) => {
-      this.USERS.unshift(role);
+    modalRef.componentInstance.UserC.subscribe((user: any) => {
+      this.USERS.unshift(user);
     });
   }
 
@@ -63,6 +74,9 @@ export class ListUsersComponent {
 
     // Se envía el usuario seleccionado al componente hijo (edit-user.component.ts)
     modalRef.componentInstance.USER_SELECTED = USER;
+
+    // Se envía el listado de roles al componente hijo (edit-user.component.ts)
+    modalRef.componentInstance.roles = this.roles;
 
     // Se suscribe al evento que se emite al cerrar el modal
     modalRef.componentInstance.UserE.subscribe((user: any) => {

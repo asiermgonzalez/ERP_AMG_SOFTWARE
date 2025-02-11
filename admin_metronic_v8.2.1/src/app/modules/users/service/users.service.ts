@@ -17,6 +17,36 @@ export class UsersService {
   }
 
    /**
+   * Servicio que se encarga de obtner el listado de roles
+   * @param page
+   * @param search
+   * @returns
+   * @autor Asier Martín
+   * @date 2025-02-11
+   * @version 1.0
+   * @see create-users.component.ts
+   * @see users.service.ts createUser()
+   */
+  configAll() {
+    // Inicio de petición HTTP
+    this.isLoadingSubject.next(true);
+    // Se obtiene el token del usuario logueado
+    let headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authservice.token,
+    });
+    // Se obtiene la URL del servicio
+    let URL = URL_SERVICIOS + '/users/config';
+
+    // Se realiza la petición POST al servicio
+    return (
+      this.http
+        .get(URL, { headers: headers })
+        // Fin de petición HTTP
+        .pipe(finalize(() => this.isLoadingSubject.next(false)))
+    );
+  }
+
+  /**
    * Servicio que se encarga de listar los usuarios
    * @param page
    * @param search
@@ -26,7 +56,7 @@ export class UsersService {
    * @version 1.0
    * @see list-users.component.ts
    */
-   listUsers(page = 1, search: string = '') {
+  listUsers(page = 1, search: string = '') {
     // Inicio de petición HTTP
     this.isLoadingSubject.next(true);
     // Se obtiene el token del usuario logueado
@@ -54,7 +84,7 @@ export class UsersService {
    * @version 1.0
    * @see create-user.component.ts
    */
-  registerUser(data: any) {
+  createUser(data: any) {
     // Inicio de petición HTTP
     this.isLoadingSubject.next(true);
     // Se obtiene el token del usuario logueado
